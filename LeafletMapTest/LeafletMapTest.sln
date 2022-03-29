@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeafletMapTest", "LeafletMapTest.csproj", "{922DEB62-7658-493E-BF41-60600A8025C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{922DEB62-7658-493E-BF41-60600A8025C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{922DEB62-7658-493E-BF41-60600A8025C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{922DEB62-7658-493E-BF41-60600A8025C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{922DEB62-7658-493E-BF41-60600A8025C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B8EAC6D6-9FA8-48EE-9852-BC304EB01BBE}
+	EndGlobalSection
+EndGlobal
