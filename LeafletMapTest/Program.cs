@@ -3,8 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using LeafletMapTest.Data;
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.Services.AddDbContext<LeafletMapTestContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("LeafletMapTestContext")));
 builder.Services.AddDbContext<LeafletMapTestContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LeafletMapTestContext")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("LeafletMapTestContext")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
