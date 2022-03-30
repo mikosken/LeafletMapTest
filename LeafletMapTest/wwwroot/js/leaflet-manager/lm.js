@@ -21,14 +21,26 @@ var pinIcon = L.icon({
     iconAnchor: [17, 40],
     popupAnchor: [0, -20],
 });
-map.attributionControl.addAttribution('Edited pin icon by<a href = "https://freeicons.io/profile/3024">Tinu CA</a> on <a href = "https://freeicons.io" > freeicons.io</a >')
+map.attributionControl.addAttribution('Edited pin icon by<a href = "https://freeicons.io/profile/3024">Tinu CA</a> on <a href = "https://freeicons.io" > freeicons.io</a >');
 
 
 // Loop through all map-marker elements inside map element and use their lat/long to create pins on map.
-var markers = document.querySelectorAll("#map .map-marker")
+var markers = document.querySelectorAll("#map .map-marker");
 
 for (var i = 0; i < markers.length; ++i) {
-    L.marker([markers[i].getAttribute('data-latitude'), markers[i].getAttribute('data-longitude')], { icon: pinIcon })
-        .bindPopup(markers[i].getAttribute('data-name'))
+    var dataTitle = markers[i].getAttribute('data-title');
+    var dataText = markers[i].getAttribute('data-text');
+
+    var popupString = '';
+    // Check that data is set. (Not null or empty string.)
+    if (dataTitle) {
+        popupString += '<b>' + dataTitle + '</b><br>';
+    }
+    if (dataText) {
+        popupString += dataText;
+    }
+
+    L.marker([markers[i].getAttribute('data-latitude').replace(',', '.'), markers[i].getAttribute('data-longitude').replace(',', '.')], { icon: pinIcon })
+        .bindPopup(popupString)
         .addTo(map);
 }
