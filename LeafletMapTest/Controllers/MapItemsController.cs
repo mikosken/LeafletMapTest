@@ -23,7 +23,7 @@ namespace LeafletMapTest.Controllers
         // GET: MapItems
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MapItem.ToListAsync());
+            return View(await _context.MapItems.ToListAsync());
         }
 
         // GET: MapItems/Details/5
@@ -34,7 +34,7 @@ namespace LeafletMapTest.Controllers
                 return NotFound();
             }
 
-            var mapItem = await _context.MapItem
+            var mapItem = await _context.MapItems
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mapItem == null)
             {
@@ -74,7 +74,7 @@ namespace LeafletMapTest.Controllers
                 return NotFound();
             }
 
-            var mapItem = await _context.MapItem.FindAsync(id);
+            var mapItem = await _context.MapItems.FindAsync(id);
             if (mapItem == null)
             {
                 return NotFound();
@@ -125,7 +125,7 @@ namespace LeafletMapTest.Controllers
                 return NotFound();
             }
 
-            var mapItem = await _context.MapItem
+            var mapItem = await _context.MapItems
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mapItem == null)
             {
@@ -140,15 +140,15 @@ namespace LeafletMapTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var mapItem = await _context.MapItem.FindAsync(id);
-            _context.MapItem.Remove(mapItem);
+            var mapItem = await _context.MapItems.FindAsync(id);
+            _context.MapItems.Remove(mapItem);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MapItemExists(int id)
         {
-            return _context.MapItem.Any(e => e.Id == id);
+            return _context.MapItems.Any(e => e.Id == id);
         }
     }
 }
