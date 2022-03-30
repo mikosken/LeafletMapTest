@@ -1,10 +1,54 @@
 ﻿// Import this script to add pins to a leaflet map.
 // This script assumes that jQuery, leaflet.css and leaflet.js has already been loaded,
 // and that there exists an element with id="map" on the page.
+//
+// To automatically zoom to fit markers, if they exist, set the attribute data-zoommarkerbounds.
+// zoomMarkerBounds overrides any center lat/long and default zoom level if markers exist.
+// <div id="map" data-zoommarkerbounds="true"></div>
+//
+// To set initial map center, set the attributes data-centerlat & data-centerlong.
+// <div id="map" data-centerlat="0" data-centerlong="179">
+//
+//
+// This script really needs to be cleaned up...
+
+
+// Map element & settings.
+var mapElement = document.querySelector("#map");
+
+// Default center.
+var centerLat = 0;
+var centerLong = 0;
+if (mapElement.hasAttribute('data-centerlat') && mapElement.hasAttribute('data-centerlong')) {
+    var dataCenterLat = mapElement.getAttribute('data-centerlat');
+    var dataCenterLong = mapElement.getAttribute('data-centerlong');
+    if (!isNaN(Number(dataCenterLat)) || !isNaN(Number(dataCenterLong))) {
+        centerLat = Number(dataCenterLat);
+        centerLong = Number(dataCenterLong);
+    }
+}
+
+// Default zoom level.
+var defaultZoom = 2;
+if (mapElement.hasAttribute('data-zoomlevel')) {
+    var dataZoomLevel = mapElement.getAttribute('data-zoomlevel');
+    if (!isNaN(Number(dataZoomLevel))) {
+        defaultZoom = Number(dataZoomLevel);
+    }
+}
+// Zoom to fit markers.
+var zoomMarkerBounds = false;
+if (mapElement.hasAttribute('data-zoommarkerbounds')) {
+    var dataZoomMarkerBounds = mapElement.getAttribute('data-zoommarkerbounds');
+    if (dataZoomMarkerBounds.toLowerCase() == 'true') {
+        zoomMarkerBounds = true;
+    }
+}
+
 var map = L.map('map', {
-    center: [58.50, 14.70],
+    center: [centerLat, centerLong],
     minZoom: 2,
-    zoom: 6,
+    zoom: Number(defaultZoom),
 })
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -27,6 +71,8 @@ map.attributionControl.addAttribution('Edited pin icon by<a href = "https://free
 // Loop through all map-marker elements inside map element and use their lat/long to create pins on map.
 var markers = document.querySelectorAll("#map .map-marker");
 
+let markerGroup = [];
+
 for (var i = 0; i < markers.length; ++i) {
     var dataTitle = markers[i].getAttribute('data-title');
     var dataText = markers[i].getAttribute('data-text');
@@ -40,7 +86,14 @@ for (var i = 0; i < markers.length; ++i) {
         popupString += dataText;
     }
 
-    L.marker([markers[i].getAttribute('data-latitude').replace(',', '.'), markers[i].getAttribute('data-longitude').replace(',', '.')], { icon: pinIcon })
+    var m = L.marker([markers[i].getAttribute('data-latitude').replace(',', '.'), markers[i].getAttribute('data-longitude').replace(',', '.')], { icon: pinIcon })
         .bindPopup(popupString)
         .addTo(map);
+    markerGroup.push(m);
+}
+
+if (zoomMarkerBounds && markerGroup.length > 0) {
+    // Zoom to bounds of all markers.
+    var group = new L.featureGroup(markerGroup);
+    map.fitBounds(group.getBounds());
 }
