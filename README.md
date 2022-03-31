@@ -24,14 +24,16 @@ to extend functionality, you can start by looking here:
 
 To use leaflet in the manner I have here, add leaflet js & css between head
 tags:
-```<head>
+```
+<head>
     <link rel="stylesheet" href="~/lib/leaflet/leaflet.css" />
     <script src="~/lib/leaflet/leaflet.js"></script>
 </head>
 ```
 and add jQuery and leaflet-manager/lm.js at end of the body tag:
-```    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/leaflet-manager/lm.js"~></script>
+```
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/leaflet-manager/lm.js"></script>
 </body>
 ```
 
@@ -41,11 +43,13 @@ Note that map element must have id="map" and markers must have
 class="map-marker". Note that you should hide the marker element in html to
 prevent it from interfering with the rest of the page, it is only used as a
 data carrier.
-```<div class="map-marker" ... style="display:none">
+```
+<div class="map-marker" ... style="display:none">
 ```
 
 Example:
-```    <div id="map" data-zoomtofitmarkers="true" data-zoomlevel="6" data-centerlat="58.52" data-centerlong="14.72" style="height: 440px; border: 1px solid #AAA;">
+```
+	<div id="map" data-zoomtofitmarkers="true" data-zoomlevel="6" data-centerlat="58.52" data-centerlong="14.72" style="height: 440px; border: 1px solid #AAA;">
         <div class="map-marker" data-popuptitle="Järntorget" data-popuptext="Gothenburg" data-latitude="57.699871" data-longitude="11.952903" style="display:none"></div>
         <div class="map-marker" data-popuptitle="Gothenburg central station" data-popuptext="Gothenburg" data-latitude="57.709284" data-longitude="11.972801" style="display:none"></div>
     </div>
@@ -68,7 +72,8 @@ To compile or continue development try this:
 
 Install **git** and **Visual Studio 2022**, then open a git console:
 
-```cd .\suitable\project\folder
+```
+cd .\suitable\project\folder
 git clone <address_to_this_repo>
 ```
 
