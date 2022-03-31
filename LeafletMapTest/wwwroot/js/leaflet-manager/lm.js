@@ -16,39 +16,18 @@
 // Map element & settings.
 var mapElement = document.querySelector("#map");
 
-// Default center.
-var centerLat = 0;
-var centerLong = 0;
-if (mapElement.hasAttribute('data-centerlat') && mapElement.hasAttribute('data-centerlong')) {
-    var dataCenterLat = mapElement.getAttribute('data-centerlat');
-    var dataCenterLong = mapElement.getAttribute('data-centerlong');
-    if (!isNaN(Number(dataCenterLat)) || !isNaN(Number(dataCenterLong))) {
-        centerLat = Number(dataCenterLat);
-        centerLong = Number(dataCenterLong);
-    }
-}
+var [centerLat, centerLong] = settingLatLong();
+var defaultZoom = settingZoomLevel();
+var zoomToFitMarkers = settingZoomToFitMarkers();
 
-// Default zoom level.
-var defaultZoom = 2;
-if (mapElement.hasAttribute('data-zoomlevel')) {
-    var dataZoomLevel = mapElement.getAttribute('data-zoomlevel');
-    if (!isNaN(Number(dataZoomLevel))) {
-        defaultZoom = Number(dataZoomLevel);
-    }
-}
-// Zoom to fit markers.
-var zoomMarkerBounds = false;
-if (mapElement.hasAttribute('data-zoommarkerbounds')) {
-    var dataZoomMarkerBounds = mapElement.getAttribute('data-zoommarkerbounds');
-    if (dataZoomMarkerBounds.toLowerCase() == 'true') {
-        zoomMarkerBounds = true;
-    }
-}
+// Containing folder of this script.
+var myURL = jQuery('script[src$="/leaflet-manager/lm.js"]').attr('src').replace('/leaflet-manager/lm.js', '/leaflet-manager/');
+
 
 var map = L.map('map', {
     center: [centerLat, centerLong],
     minZoom: 2,
-    zoom: Number(defaultZoom),
+    zoom: defaultZoom,
 })
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -57,7 +36,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     subdomains: ['a', 'b', 'c'],
 }).addTo(map)
 
-var myURL = jQuery('script[src$="/leaflet-manager/lm.js"]').attr('src').replace('/leaflet-manager/lm.js', '/leaflet-manager/');
 
 var pinIcon = L.icon({
     iconUrl: myURL + 'img/edited-pin-48.png',
@@ -67,15 +45,14 @@ var pinIcon = L.icon({
 });
 map.attributionControl.addAttribution('Edited pin icon by<a href = "https://freeicons.io/profile/3024">Tinu CA</a> on <a href = "https://freeicons.io" > freeicons.io</a >');
 
-
 // Loop through all map-marker elements inside map element and use their lat/long to create pins on map.
 var markers = document.querySelectorAll("#map .map-marker");
 
 let markerGroup = [];
 
 for (var i = 0; i < markers.length; ++i) {
-    var dataTitle = markers[i].getAttribute('data-title');
-    var dataText = markers[i].getAttribute('data-text');
+    var dataTitle = markers[i].getAttribute('data-popuptitle');
+    var dataText = markers[i].getAttribute('data-popuptext');
 
     var popupString = '';
     // Check that data is set. (Not null or empty string.)
@@ -92,8 +69,50 @@ for (var i = 0; i < markers.length; ++i) {
     markerGroup.push(m);
 }
 
-if (zoomMarkerBounds && markerGroup.length > 0) {
+if (zoomToFitMarkers && markerGroup.length > 0) {
     // Zoom to bounds of all markers.
     var group = new L.featureGroup(markerGroup);
     map.fitBounds(group.getBounds());
+}
+
+///////////////////////////////////////////////////
+// Helper functions.
+//
+function settingLatLong() {
+    // Default center.
+    var centerLat = 0;
+    var centerLong = 0;
+    if (mapElement.hasAttribute('data-centerlat') && mapElement.hasAttribute('data-centerlong')) {
+        var dataCenterLat = mapElement.getAttribute('data-centerlat');
+        var dataCenterLong = mapElement.getAttribute('data-centerlong');
+        if (!isNaN(Number(dataCenterLat)) || !isNaN(Number(dataCenterLong))) {
+            centerLat = Number(dataCenterLat);
+            centerLong = Number(dataCenterLong);
+        }
+    }
+    return [centerLat, centerLong];
+}
+
+function settingZoomLevel() {
+    // Default zoom level.
+    var defaultZoom = 2;
+    if (mapElement.hasAttribute('data-zoomlevel')) {
+        var dataZoomLevel = mapElement.getAttribute('data-zoomlevel');
+        if (!isNaN(Number(dataZoomLevel))) {
+            defaultZoom = Number(dataZoomLevel);
+        }
+    }
+    return defaultZoom;
+}
+
+function settingZoomToFitMarkers() {
+    // Zoom to fit markers.
+    var zoomToFitMarkers = false;
+    if (mapElement.hasAttribute('data-zoomtofitmarkers')) {
+        var dataZoomToFitMarkers = mapElement.getAttribute('data-zoomtofitmarkers');
+        if (dataZoomToFitMarkers.toLowerCase() == 'true') {
+            zoomToFitMarkers = true;
+        }
+    }
+    return zoomToFitMarkers;
 }

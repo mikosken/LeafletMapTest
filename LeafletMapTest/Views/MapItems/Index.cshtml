@@ -9,9 +9,9 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<div id="map" data-zoommarkerbounds="true" data-zoomlevel="6" data-centerlat="58.52" data-centerlong="14.72" style="height: 440px; border: 1px solid #AAA;">
+<div id="map" data-zoomtofitmarkers="true" data-zoomlevel="6" data-centerlat="58.52" data-centerlong="14.72" style="height: 440px; border: 1px solid #AAA;">
 @foreach (var item in Model) {
-    <div class="map-marker" data-title="@item.Name" data-text="@item.FullAddress" data-latitude="@item.Latitude" data-longitude="@item.Longitude" style="display:none"></div>
+    <div class="map-marker" data-popuptitle="@item.Name" data-popuptext="@item.FullAddress" data-latitude="@item.Latitude" data-longitude="@item.Longitude" style="display:none"></div>
 }
 </div>
 <table class="table">
