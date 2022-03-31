@@ -8,6 +8,7 @@ The supporting script leaflet-manager/lm.js created for this project is capable 
 reading data-* attributes as settings from the html map element, as well as create
 map markers from data-* in sub-elements.
 
+![Screenshot of leaflet map](https://raw.githubusercontent.com/mikosken/LeafletMapTest/master/readme_images/Screenshot.PNG)
 
 ## Interesting files & useage
 
@@ -19,6 +20,7 @@ to extend functionality, you can start by looking here:
 	* img\ - Contains marker images.
 * LeafletMapTest\Views\MapItems\
 	* Index.cshtml & Details.cshtml - Uses leaflet together with lm.js to display data from database.
+* LeafletMapTest\wwwroot\lib\leaflet\ - [Open Source JavaScript library for mobile-friendly interactive maps](https://leafletjs.com/)
 
 To use leaflet in the manner I have here, add leaflet js & css between head
 tags:
